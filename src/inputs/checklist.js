@@ -32,18 +32,20 @@ $(function(){
     $.extend(Checklist.prototype, {
         renderList: function() {
             var $label, $div;
-            
+
             this.$tpl.empty();
-            
+
             if(!$.isArray(this.sourceData)) {
                 return;
             }
 
             for(var i=0; i<this.sourceData.length; i++) {
-                $label = $('<label>').append($('<input>', {
-                                           type: 'checkbox',
-                                           value: this.sourceData[i].value 
-                                     }));
+                var $input = $('<input>', {
+                  type: 'checkbox',
+                  value: this.sourceData[i].value,
+                  "data-disabled": this.sourceData[i].disabled ? true : false
+                });
+                $label = $('<label>').append($input);
                 var $option = $('<span>');
                 $option[this.options.escape ? 'text' : 'html'](' '+this.sourceData[i].text);
                 $label.append($option);
@@ -53,12 +55,19 @@ $(function(){
 
             this.$input = this.$tpl.find('input[type="checkbox"]');
             this.setClass();
+
+            var disabled = this.$tpl.find('input[type="checkbox"][data-disabled=true]');
+            $.each(disabled, (d) => {
+                setTimeout(function() {
+                  $(disabled[d]).prop('disabled', true);
+                }, 0);
+            });
         },
-       
+
        value2str: function(value) {
            return $.isArray(value) ? value.sort().join($.trim(this.options.separator)) : '';
-       },  
-       
+       },
+
        //parse separated string
         str2value: function(str) {
            var reg, value = null;

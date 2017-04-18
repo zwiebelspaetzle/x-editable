@@ -91,6 +91,7 @@ $(function () {
         equal(e.text(), esc, 'html escaped');
         e.click();
         var p = tip(e); 
+        var p = tip(e);
         equal($.trim(p.find('label > span').eq(0).text()), esc, 'option escaped');
         e.remove();    
         
