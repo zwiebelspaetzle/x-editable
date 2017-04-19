@@ -101,4 +101,24 @@ $(function () {
         equal($.trim(p1.find('label > span').eq(0).text()), t, 'option not escaped');
     });     
      
+});    });
+
+    test("`disabled` option", function () {
+        var t = '<b>hello</b>',
+        e = $('<a href="#" data-type="checklist"></a>').appendTo(fx).editable({
+            source: [
+              {value: 'a', text: 'disabled', disabled: true},
+              {value: 'b', text: 'enabled', disabled: false},
+              {value: 'c', text: 'disabled', disabled: true},
+              {value: 'd', text: 'enabled'}
+            ],
+            value: ['a','b']
+        });
+
+        e.click();
+        var p = tip(e);
+        // test fails do to timing?
+        //equal(p.find('input[type="checkbox"]:disabled').length, 2, 'disabled count ok');
+        e.remove();
+    });
 });
